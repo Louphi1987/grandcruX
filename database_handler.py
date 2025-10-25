@@ -9,8 +9,17 @@ class DatabaseHandler:
 
 
     def _get_connection(self):
-        if self.database_url:
-            return psycopg2.connect(self.database_url)
+        # Analyse l'URL de la forme : postgresql+psycopg2://user:password@host/db
+        result = urlparse(self.database_url)
+
+        return psycopg2.connect(
+            dbname=result.path[1:],           # enlève le '/' du début
+            user=result.username,
+            password=result.password,
+            host=result.hostname,
+            port=result.port or 5432
+        )
+
 
     def close(self):
         try:
