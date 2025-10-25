@@ -1,4 +1,5 @@
 import psycopg2
+from urllib.parse import urlparse
 import os
 
 class DatabaseHandler:
