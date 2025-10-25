@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formulaire grandcruX — FR / NL / EN</title>
+  <style>
+    :root{
+      --wine:#6a1b1b;
+      --wine-dark:#8b2323;
+      --bg:#faf6f3;
+      --text:#2a1e1e;
+      --muted:#7a5a5a;
+      --card:#fff;
+      --accent-bg:#fff6f2;
+      --accent-border:#b63a3a;
+      --radius:20px;
+    }
+    *{box-sizing:border-box}
+    body {
+      background: var(--bg);
+      font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: var(--text);
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 25px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      margin-top: 20px;
+      position: relative;
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--wine);
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: var(--muted);
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+
+    section { margin-bottom: 30px; }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-top: 12px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent-border);
+      outline: none;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+
+    .checkbox-group label { display:flex; align-items:center; gap:6px; }
+
+    .checkbox-group input[type="checkbox"] {
+      margin: 0; padding: 0; appearance: none; -webkit-appearance: none;
+      width: 16px; height: 16px; border: 2px solid var(--wine);
+      border-radius: 3px; position: relative; cursor: pointer;
+    }
+
+    .checkbox-group input[type="checkbox"]:checked { background-color: var(--wine); }
+
+    .submit-btn {
+      background-color: var(--wine);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 20px;
+      width: 100%;
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .submit-btn:hover { background-color: var(--wine-dark); }
+
+    @media (max-width: 600px) {
+      .container { margin: 10px; padding: 20px; }
+    }
+
+    /* Transitions et multi-pages */
+    .form-step { display: none; animation: fade 0.25s ease-in-out; }
+    .form-step.active { display: block; }
+    @keyframes fade { from {opacity: 0;} to {opacity: 1;} }
+
+    .step-buttons {
+      display: flex; gap:12px; justify-content: space-between; margin-top: 20px;
+    }
+
+    .rapport-card {
+      background: var(--accent-bg);
+      border: 2px solid var(--accent-border);
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    .rapport-card h2 { color: var(--wine); margin-bottom: 10px; }
+    .rapport-card p { color: #5c3c3c; font-style: italic; margin-bottom: 20px; }
+
+    /* Boutons de langue */
+    .lang-switch {
+      position: absolute; top: 10px; right: 10px; display: flex; gap: 8px;
+    }
+    .lang-btn {
+      background: var(--wine); color:#fff; border: none; padding: 6px 10px; border-radius: 999px;
+      font-weight: 700; cursor: pointer; font-size: 13px; letter-spacing: .3px;
+      box-shadow: 0 2px 6px rgba(0,0,0,.12);
+    }
+    .lang-btn[aria-pressed="true"] { background: var(--wine-dark); outline: 2px solid #e8d6d6; }
+    .lang-btn:focus-visible{ outline: 3px solid #d8b0b0; }
+
+    .optin-conditions, .optin-impression {
+      text-align: left;
+      margin-top: 20px;
+      font-size: 0.95rem;
+    }
+
+    .optin-conditions label, .optin-impression label {
+      display: block;
+      cursor: pointer;
+      line-height: 1.5;
+    }
+
+    .conditions-content {
+      display: none;
+      margin-top: 12px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 12px;
+      border: 1px solid var(--accent-border);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+    }
+
+    .cg-link {
+      color: var(--accent-border);
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    #sendReport[disabled] {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .optin-impression p {
+      font-size: 0.9rem;
+      color: #555;
+      margin-left: 24px;
+    }
+
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Switch langues -->
+    <div class="lang-switch" aria-label="Sélecteur de langue">
+      <button type="button" class="lang-btn" data-lang="fr" aria-pressed="true">FR</button>
+      <button type="button" class="lang-btn" data-lang="nl" aria-pressed="false">NL</button>
+      <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+
+    <h1 data-i18n="title">🍇 Formulaire grandcruX</h1>
+    <p class="subtitle" data-i18n="subtitle">Le vin entre passion et patrimoine</p>
+
+    <form id="multiForm" method="POST">
+      <!-- Lang active envoyée au backend -->
+      <input type="hidden" name="lang" id="lang_hidden" value="fr" />
+
+      <!-- ÉTAPE 1 -->
+      <div class="form-step active" id="step1">
+        <h2 data-i18n="step1_title">VOLET 1 — Le vin</h2>
+        <p><em data-i18n="step1_desc">Ce premier volet vise à comprendre votre rapport au vin : plaisir, patrimoine ou les deux.</em></p>
+
+        <label data-for-base="age" data-i18n="label_age">Quel âge avez-vous?</label>
+        <input type="number" data-id-base="age" data-name-base="age" min="18" required>
+
+        <label data-for-base="relation_vin" data-i18n="label_relation">Quelle est votre relation principale au vin ?</label>
+        <select data-id-base="relation_vin" data-name-base="relation_vin" required>
+          <option value="consommation" data-i18n-option="opt_relation_consommation">Consommation</option>
+          <option value="investissement" data-i18n-option="opt_relation_investissement">Investissement</option>
+          <option value="les_deux" data-i18n-option="opt_relation_les_deux">Les deux</option>
+        </select>
+
+        <label data-for-base="connaissance_vin" data-i18n="label_connaissance">Quelle est votre connaissance du marché du vin ?</label>
+        <select data-id-base="connaissance_vin" data-name-base="connaissance_vin">
+          <option value="debutant" data-i18n-option="opt_connaissance_debutant">Débutant(e)</option>
+          <option value="amateur" data-i18n-option="opt_connaissance_amateur">Amateur(e) éclairé(e)</option>
+          <option value="connaisseur" data-i18n-option="opt_connaissance_connaisseur">Connaisseur(se) / collectionneur(se)</option>
+          <option value="professionnel" data-i18n-option="opt_connaissance_professionnel">Professionnel(le) du vin</option>
+        </select>
+
+        <label data-for-base="region_preferee" data-i18n="label_region">Quelle région viticole vous attire le plus ?</label>
+        <select data-id-base="region_preferee" data-name-base="region_preferee">
+          <option value="bordeaux" data-i18n-option="opt_region_bordeaux">Bordeaux</option>
+          <option value="bourgogne" data-i18n-option="opt_region_bourgogne">Bourgogne</option>
+          <option value="vallee_du_rhone" data-i18n-option="opt_region_rhone">Vallée du Rhône</option>
+          <option value="loire" data-i18n-option="opt_region_loire">Loire</option>
+          <option value="champagne" data-i18n-option="opt_region_champagne">Champagne</option>
+          <option value="alsace" data-i18n-option="opt_region_alsace">Alsace</option>
+          <option value="provence" data-i18n-option="opt_region_provence">Provence</option>
+          <option value="italie" data-i18n-option="opt_region_italie">Italie (Piémont, Toscane...)</option>
+          <option value="espagne" data-i18n-option="opt_region_espagne">Espagne (Rioja, Ribera del Duero...)</option>
+          <option value="portugal" data-i18n-option="opt_region_portugal">Portugal</option>
+          <option value="nouveau_monde" data-i18n-option="opt_region_nouveau_monde">Nouveau Monde (Chili, Argentine, Australie...)</option>
+          <option value="autre" data-i18n-option="opt_region_autre">Je n'ai pas de préférence et suis à l'écoute de bons conseils</option>
+        </select>
+
+        <label data-for-base="budget_vin" data-i18n="label_budget">Quel budget annuel consacrez-vous au vin ?</label>
+        <select data-id-base="budget_vin" data-name-base="budget_vin">
+          <option value="moins_500" data-i18n-option="opt_budget_moins_500">Moins de 500 €</option>
+          <option value="500_2000" data-i18n-option="opt_budget_500_2000">Entre 500 € et 2 000 €</option>
+          <option value="2000_10000" data-i18n-option="opt_budget_2000_10000">Entre 2 000 € et 10 000 €</option>
+          <option value="plus_10000" data-i18n-option="opt_budget_plus_10000">Plus de 10 000 €</option>
+        </select>
+
+        <label data-for-base="forme_possession" data-i18n="label_possession">Sous quelle forme possédez-vous du vin (ou souhaiteriez-vous le faire) ?</label>
+        <select data-id-base="forme_possession" data-name-base="forme_possession">
+          <option value="cave_personnelle" data-i18n-option="opt_poss_cave_personnelle">Cave personnelle</option>
+          <option value="cave_externalisee" data-i18n-option="opt_poss_cave_externalisee">Cave externalisée / garde professionnelle</option>
+          <option value="fonds_investissement" data-i18n-option="opt_poss_fonds">Fonds ou plateformes d’investissement dans le vin</option>
+          <option value="pas_encore" data-i18n-option="opt_poss_pas_encore">Pas encore, mais je souhaite me renseigner</option>
+        </select>
+
+        <label data-for-base="motivation" data-i18n="label_motivation">Quelle est votre motivation principale ?</label>
+        <select data-id-base="motivation" data-name-base="motivation">
+          <option value="plaisir" data-i18n-option="opt_motiv_plaisir">Plaisir gustatif</option>
+          <option value="transmission" data-i18n-option="opt_motiv_transmission">Transmission familiale</option>
+          <option value="placement" data-i18n-option="opt_motiv_placement">Placement à long terme</option>
+          <option value="diversification" data-i18n-option="opt_motiv_diversification">Diversification du patrimoine</option>
+          <option value="autre" data-i18n-option="opt_motiv_autre">Autre</option>
+        </select>
+
+        <label data-for-base="risque" data-i18n="label_risque">Quel niveau de risque êtes-vous prêt(e) à accepter ?</label>
+        <select data-id-base="risque" data-name-base="risque">
+          <option value="tres_faible" data-i18n-option="opt_risque_tres_faible">Très faible — je privilégie la sécurité</option>
+          <option value="modere" data-i18n-option="opt_risque_modere">Modéré — un équilibre entre plaisir et rendement</option>
+          <option value="eleve" data-i18n-option="opt_risque_eleve">Élevé — je recherche avant tout la performance</option>
+        </select>
+
+        <div class="step-buttons">
+          <button type="button" class="submit-btn" data-i18n="btn_next" onclick="nextStep()">Suivant ➡️</button>
+        </div>
+      </div>
+
+      <!-- ÉTAPE 2 -->
+      <div class="form-step" id="step2">
+        <h2 data-i18n="step2_title">VOLET 2 — Transmission</h2>
+        <p><em data-i18n="step2_desc">Le vin peut aussi être un symbole fort de transmission — culturelle, émotionnelle et patrimoniale.</em></p>
+
+        <label data-for-base="enfants" data-i18n="label_enfants">Avez-vous des enfants ?</label>
+        <select data-id-base="enfants" data-name-base="enfants">
+          <option value="oui" data-i18n-option="opt_oui">Oui</option>
+          <option value="non" data-i18n-option="opt_non">Non</option>
+        </select>
+
+        <label data-for-base="nombre_enfants" data-i18n="label_nombre_enfants">Si oui, combien ?</label>
+        <input type="number" data-id-base="nombre_enfants" data-name-base="nombre_enfants" min="0">
+
+        <label data-for-base="mariage" data-i18n="label_mariage">Êtes-vous marié(e) ?</label>
+        <select data-id-base="mariage" data-name-base="mariage">
+          <option value="oui" data-i18n-option="opt_oui">Oui</option>
+          <option value="non" data-i18n-option="opt_non">Non</option>
+        </select>
+
+        <label data-for-base="regime" data-i18n="label_regime">Si oui, sous quel régime matrimonial ?</label>
+        <select data-id-base="regime" data-name-base="regime">
+          <option value="communautelegale" data-i18n-option="opt_regime_communautelegale">Communauté légale</option>
+          <option value="separationbien" data-i18n-option="opt_regime_separationbien">Séparation de biens</option>
+          <option value="communauteuniverselle" data-i18n-option="opt_regime_communauteuniverselle">Communauté universelle</option>
+        </select>
+
+        <label data-for-base="societe" data-i18n="label_societe">Avez-vous une société ?</label>
+        <select data-id-base="societe" data-name-base="societe">
+          <option value="non" data-i18n-option="opt_non">Non</option>
+          <option value="oui" data-i18n-option="opt_oui">Oui</option>
+        </select>
+
+        <label data-for-base="type_societe" data-i18n="label_type_societe">Si oui, précisez le type :</label>
+        <input type="text" data-id-base="type_societe" data-name-base="type_societe">
+
+        <label data-for-base="donations" data-i18n="label_donations">Avez-vous déjà effectué des donations ?</label>
+        <select data-id-base="donations" data-name-base="donations">
+          <option value="oui" data-i18n-option="opt_oui">Oui</option>
+          <option value="non" data-i18n-option="opt_non">Non</option>
+        </select>
+
+        <label data-for-base="importance_patrimoine" data-i18n="label_importance_patrimoine">Quelle importance accordez-vous à la notion de “patrimoine culturel” dans la transmission ?</label>
+        <select data-id-base="importance_patrimoine" data-name-base="importance_patrimoine">
+          <option value="faible" data-i18n-option="opt_importance_faible">Faible</option>
+          <option value="moyenne" data-i18n-option="opt_importance_moyenne">Moyenne</option>
+          <option value="elevee" data-i18n-option="opt_importance_elevee">Élevée</option>
+        </select>
+
+        <label data-i18n="label_presentation">Souhaitez-vous recevoir une présentation sur :</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" data-name-base="presentation_transmission" data-id-base="presentation_transmission" value="transmission"> <span data-i18n="cb_transmission">Le vin comme support de transmission</span></label>
+          <label><input type="checkbox" data-name-base="presentation_aspects_culturels" data-id-base="presentation_aspects_culturels" value="aspects_culturels"> <span data-i18n="cb_aspects">Aspects culturels et bonnes pratiques</span></label>
+        </div>
+
+        <label data-for-base="remarques" data-i18n="label_remarques">Remarques complémentaires / souhaits particuliers :</label>
+        <textarea rows="3" data-id-base="remarques" data-name-base="remarques"></textarea>
+
+        <div class="step-buttons">
+          <button type="button" class="submit-btn" data-i18n="btn_prev" onclick="prevStep()">⬅️ Retour</button>
+          <button type="button" class="submit-btn" data-i18n="btn_next" onclick="nextStep()">Suivant ➡️</button>
+        </div>
+      </div>
+
+      <!-- ÉTAPE 3 -->
+      <div class="form-step" id="step3">
+        <div class="rapport-card">
+          <h2 data-i18n="step3_title">📜 Désirez-vous obtenir votre rapport gratuit ?</h2>
+          <p data-i18n="step3_desc">Merci de nous faire parvenir vos coordonnées afin de recevoir votre rapport viticole personnalisé.</p>
+
+          <!-- Coordonnées -->
+          <label data-for-base="nom" data-i18n="label_nom">Nom</label>
+          <input type="text" data-id-base="nom" data-name-base="nom" required>
+
+          <label data-for-base="prenom" data-i18n="label_prenom">Prénom</label>
+          <input type="text" data-id-base="prenom" data-name-base="prenom" required>
+
+          <label data-for-base="mail" data-i18n="label_mail">Adresse e-mail</label>
+          <input type="email" data-id-base="mail" data-name-base="mail" required>
+
+          <label data-for-base="tel" data-i18n="label_tel">Téléphone</label>
+          <input type="tel" data-id-base="tel" data-name-base="tel">
+
+          <label data-for-base="domicile" data-i18n="label_domicile">Domicile</label>
+          <input type="text" data-id-base="domicile" data-name-base="domicile">
+
+          <!-- ✅ Bloc opt-in Conditions -->
+          <div class="optin-conditions">
+            <label>
+              <input type="checkbox" id="acceptCG">
+              <span data-i18n="cg_checkbox_label">
+                J’ai lu et j’accepte les <span id="toggleCG" class="cg-link">Conditions de GrandcruX</span>.
+              </span>
+            </label>
+
+            <!-- Menu déroulant -->
+            <div id="conditionsContent" class="conditions-content">
+              <h4 data-i18n="conditions_title">Conditions de GrandcruX</h4>
+
+              <p><strong data-i18n="conditions_a_title">a) Clause de non-conseil</strong><br>
+              <span data-i18n="conditions_a_text">Les rapports GrandcruX sont fournis à titre informatif et ne constituent en aucun cas un conseil en investissement, fiscal, juridique ou financier.</span></p>
+
+              <p><strong data-i18n="conditions_b_title">b) Clause de non-responsabilité</strong><br>
+              <span data-i18n="conditions_b_text">GrandcruX et ses partenaires ne sauraient être tenus responsables de tout préjudice direct ou indirect résultant de l’interprétation ou de l’utilisation du contenu du rapport.</span></p>
+
+              <p><strong data-i18n="conditions_c_title">c) Clause de propriété intellectuelle</strong><br>
+              <span data-i18n="conditions_c_text">Les rapports GrandcruX sont la propriété exclusive de GrandcruX. Toute reproduction, diffusion, modification ou revente, totale ou partielle, sans autorisation écrite préalable, est strictement interdite.</span></p>
+
+              <p><strong data-i18n="conditions_d_title">d) Clause d’acceptation</strong><br>
+              <span data-i18n="conditions_d_text">En cochant la case d’acceptation ou en téléchargeant le rapport, l’utilisateur reconnaît avoir lu et accepté les présentes Conditions.</span></p>
+            </div>
+          </div>
+
+          <!-- ✅ Bloc version imprimée -->
+          <div class="optin-impression">
+            <label>
+              <input type="checkbox" id="printOption" name="printOption">
+              <span data-i18n="print_option_label">
+                Je souhaite également recevoir une <strong>version imprimée</strong> de mon rapport,
+                éventuellement accompagnée du <em>pack dégustation GrandcruX 🍷</em>.
+              </span>
+            </label>
+            <p data-i18n="print_option_note">(Option payante : impression sur papier premium, envoi avec sélection de vin.)</p>
+          </div>
+
+          <!-- ✅ Boutons -->
+          <div class="step-buttons">
+            <button type="button" class="submit-btn" data-i18n="btn_prev" onclick="prevStep()">⬅️ Retour</button>
+            <button type="submit" id="sendReport" class="submit-btn" data-i18n="btn_submit" disabled>Envoyer ✅</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // ————————————————
+    // Gestion des étapes
+    // ————————————————
+    let currentStep = 0;
+    const steps = document.querySelectorAll('.form-step');
+    function showStep(index) {
+      steps.forEach((step, i) => step.classList.toggle('active', i === index));
+    }
+    function nextStep() {
+      if (currentStep < steps.length - 1) {
+        currentStep++;
+        showStep(currentStep);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+    function prevStep() {
+      if (currentStep > 0) {
+        currentStep--;
+        showStep(currentStep);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    // ————————————————
+    // i18n — dictionnaires FR / NL / EN
+    // ————————————————
+    const t = {
+      fr: {
+        title: '🍇 Formulaire grandcruX',
+        subtitle: 'Le vin entre passion et patrimoine',
+        step1_title: 'VOLET 1 — Le vin',
+        step1_desc: 'Ce premier volet vise à comprendre votre rapport au vin : plaisir, patrimoine ou les deux.',
+        label_age: 'Quel âge avez-vous?',
+        label_relation: 'Quelle est votre relation principale au vin ?',
+        opt_relation_consommation: 'Consommation',
+        opt_relation_investissement: 'Investissement',
+        opt_relation_les_deux: "Consommation et investissement",
+        label_connaissance: 'Quelle est votre connaissance du marché du vin ?',
+        opt_connaissance_debutant: 'Débutant(e)',
+        opt_connaissance_amateur: 'Amateur(e) éclairé(e)',
+        opt_connaissance_connaisseur: 'Connaisseur(se) / collectionneur(se)',
+        opt_connaissance_professionnel: 'Professionnel(le) du vin',
+        label_region: 'Quelle région viticole vous attire le plus ?',
+        opt_region_bordeaux: 'Bordeaux',
+        opt_region_bourgogne: 'Bourgogne',
+        opt_region_rhone: 'Vallée du Rhône',
+        opt_region_loire: 'Loire',
+        opt_region_champagne: 'Champagne',
+        opt_region_alsace: 'Alsace',
+        opt_region_provence: 'Provence',
+        opt_region_italie: 'Italie (Piémont, Toscane...)',
+        opt_region_espagne: 'Espagne (Rioja, Ribera del Duero...)',
+        opt_region_portugal: 'Portugal',
+        opt_region_nouveau_monde: 'Nouveau Monde (Chili, Argentine, Australie...)',
+        opt_region_autre: "Je n'ai pas de préférence et suis à l'écoute de bons conseils",
+        label_budget: 'Quel budget annuel consacrez-vous au vin ?',
+        opt_budget_moins_500: 'Moins de 500 €',
+        opt_budget_500_2000: 'Entre 500 € et 2 000 €',
+        opt_budget_2000_10000: 'Entre 2 000 € et 10 000 €',
+        opt_budget_plus_10000: 'Plus de 10 000 €',
+        label_possession: 'Sous quelle forme possédez-vous du vin (ou souhaiteriez-vous le faire) ?',
+        opt_poss_cave_personnelle: 'Cave personnelle',
+        opt_poss_cave_externalisee: 'Cave externalisée / garde professionnelle',
+        opt_poss_fonds: "Fonds ou plateformes d’investissement dans le vin",
+        opt_poss_pas_encore: 'Pas encore, mais je souhaite me renseigner',
+        label_motivation: 'Quelle est votre motivation principale ?',
+        opt_motiv_plaisir: 'Plaisir gustatif',
+        opt_motiv_transmission: 'Transmission familiale',
+        opt_motiv_placement: 'Placement à long terme',
+        opt_motiv_diversification: 'Diversification du patrimoine',
+        opt_motiv_autre: 'Autre',
+        label_risque: 'Quel niveau de risque êtes-vous prêt(e) à accepter ?',
+        opt_risque_tres_faible: 'Très faible — je privilégie la sécurité',
+        opt_risque_modere: 'Modéré — un équilibre entre plaisir et rendement',
+        opt_risque_eleve: 'Élevé — je recherche avant tout la performance',
+        step2_title: 'VOLET 2 — Transmission',
+        step2_desc: 'Le vin peut aussi être un symbole fort de transmission — culturelle, émotionnelle et patrimoniale.',
+        label_enfants: 'Avez-vous des enfants ?',
+        label_nombre_enfants: 'Si oui, combien ?',
+        label_mariage: 'Êtes-vous marié(e) ?',
+        label_regime: 'Si oui, sous quel régime matrimonial ?',
+        opt_regime_communautelegale: 'Communauté légale',
+        opt_regime_separationbien: 'Séparation de biens',
+        opt_regime_communauteuniverselle: 'Communauté universelle',
+        label_societe: 'Avez-vous une société ?',
+        opt_oui: "Oui",
+        opt_non: "Non",
+        label_type_societe: 'Si oui, précisez le type :',
+        label_donations: 'Avez-vous déjà effectué des donations ?',
+        label_importance_patrimoine: 'Quelle importance accordez-vous à la notion de “patrimoine culturel” dans la transmission ?',
+        opt_importance_faible: 'Faible',
+        opt_importance_moyenne: 'Moyenne',
+        opt_importance_elevee: 'Élevée',
+        label_presentation: 'Souhaitez-vous recevoir une présentation sur :',
+        cb_transmission: 'Le vin comme support de transmission',
+        cb_aspects: 'Aspects culturels et bonnes pratiques',
+        label_remarques: 'Remarques complémentaires / souhaits particuliers :',
+        step3_title: '📜 Désirez-vous obtenir votre rapport gratuit ?',
+        step3_desc: 'Merci de nous faire parvenir vos coordonnées afin de recevoir votre rapport viticole personnalisé.',
+        label_nom: 'Nom',
+        label_prenom: 'Prénom',
+        label_mail: 'Adresse e-mail',
+        label_tel: 'Téléphone',
+        label_domicile: 'Domicile',
+        btn_prev: '⬅️ Retour',
+        btn_next: 'Suivant ➡️',
+        btn_submit: 'Envoyer ✅',
+        cg_checkbox_label: "J’ai lu et j’accepte les <span id='toggleCG' class='cg-link'>Conditions de GrandcruX</span>.",
+        conditions_title: "Conditions de GrandcruX",
+        conditions_a_title: "a) Clause de non-conseil",
+        conditions_a_text: "Les rapports GrandcruX sont fournis à titre informatif et ne constituent en aucun cas un conseil en investissement, fiscal, juridique ou financier.",
+        conditions_b_title: "b) Clause de non-responsabilité",
+        conditions_b_text: "GrandcruX et ses partenaires ne sauraient être tenus responsables de tout préjudice direct ou indirect résultant de l’interprétation ou de l’utilisation du contenu du rapport.",
+        conditions_c_title: "c) Clause de propriété intellectuelle",
+        conditions_c_text: "Les rapports GrandcruX sont la propriété exclusive de GrandcruX. Toute reproduction, diffusion, modification ou revente, totale ou partielle, sans autorisation écrite préalable, est strictement interdite.",
+        conditions_d_title: "d) Clause d’acceptation",
+        conditions_d_text: "En cochant la case d’acceptation ou en téléchargeant le rapport, l’utilisateur reconnaît avoir lu et accepté les présentes Conditions.",
+        print_option_label: "Je souhaite également recevoir une <strong>version imprimée</strong> de mon rapport, éventuellement accompagnée du <em>pack dégustation GrandcruX 🍷</em>.",
+        },
+      nl: {
+        title: '🍇 grandcruX-formulier',
+        subtitle: 'Wijn tussen passie en erfgoed',
+        step1_title: 'DEEL 1 — Wijn',
+        step1_desc: 'Dit eerste deel peilt naar uw relatie met wijn: plezier, erfgoed of beide.',
+        label_age: "Hoe oud bent u?",
+        label_relation: 'Wat is uw hoofdrelatie tot wijn?',
+        opt_relation_consommation: 'Consumptie',
+        opt_relation_investissement: 'Belegging / investering',
+        opt_relation_les_deux: "Consumptie en investering",
+        label_connaissance: 'Hoe goed kent u de wijnmarkt?',
+        opt_connaissance_debutant: 'Beginner',
+        opt_connaissance_amateur: 'Gevorderde liefhebber',
+        opt_connaissance_connaisseur: 'Kenner / verzamelaar',
+        opt_connaissance_professionnel: 'Wijnprofessional',
+        label_region: 'Welke wijnregio spreekt u het meest aan?',
+        opt_region_bordeaux: 'Bordeaux',
+        opt_region_bourgogne: 'Bourgogne',
+        opt_region_rhone: 'Rhônedal',
+        opt_region_loire: 'Loire',
+        opt_region_champagne: 'Champagne',
+        opt_region_alsace: 'Elzas',
+        opt_region_provence: 'Provence',
+        opt_region_italie: 'Italië (Piëmont, Toscane...)',
+        opt_region_espagne: 'Spanje (Rioja, Ribera del Duero...)',
+        opt_region_portugal: 'Portugal',
+        opt_region_nouveau_monde: 'Nieuwe Wereld (Chili, Argentinië, Australië...)',
+        opt_region_autre: "Ik heb geen specifieke voorkeur en sta open voor advies",
+        label_budget: 'Welk jaarbudget besteedt u aan wijn?',
+        opt_budget_moins_500: 'Minder dan €500',
+        opt_budget_500_2000: 'Tussen €500 en €2.000',
+        opt_budget_2000_10000: 'Tussen €2.000 en €10.000',
+        opt_budget_plus_10000: 'Meer dan €10.000',
+        opt_oui: "Ja",
+        opt_non: "Nee",
+        label_possession: 'In welke vorm bezit u wijn (of wenst u dat te doen)?',
+        opt_poss_cave_personnelle: 'Eigen kelder',
+        opt_poss_cave_externalisee: 'Uitbestede kelder / professionele bewaring',
+        opt_poss_fonds: 'Fonds of platforms voor wijninvesteringen',
+        opt_poss_pas_encore: 'Nog niet, maar ik wens informatie',
+        label_motivation: 'Wat is uw voornaamste motivatie?',
+        opt_motiv_plaisir: 'Smaakplezier',
+        opt_motiv_transmission: 'Familiale overdracht',
+        opt_motiv_placement: 'Langetermijnbelegging',
+        opt_motiv_diversification: 'Vermogensdiversificatie',
+        opt_motiv_autre: 'Andere',
+        label_risque: 'Welk risiconiveau wilt u aanvaarden?',
+        opt_risque_tres_faible: 'Zeer laag — ik verkiest veiligheid',
+        opt_risque_modere: 'Gemiddeld — balans tussen plezier en rendement',
+        opt_risque_eleve: 'Hoog — ik mik vooral op prestatie',
+        step2_title: 'DEEL 2 — Overdracht',
+        step2_desc: 'Wijn kan ook een sterk symbool van overdracht zijn — cultureel, emotioneel en vermogensgericht.',
+        label_enfants: 'Heeft u kinderen?',
+        label_nombre_enfants: 'Zo ja, hoeveel?',
+        label_mariage: 'Bent u gehuwd?',
+        label_regime: 'Zo ja, onder welk huwelijksstelsel?',
+        opt_regime_communautelegale: 'Wettelijke gemeenschap',
+        opt_regime_separationbien: 'Scheiding van goederen',
+        opt_regime_communauteuniverselle: 'Algehele gemeenschap',
+        label_societe: 'Heeft u een vennootschap?',
+        label_type_societe: 'Zo ja, welk type?',
+        label_donations: 'Heeft u al schenkingen gedaan?',
+        label_importance_patrimoine: 'Hoe belangrijk vindt u “cultureel erfgoed” bij de overdracht?',
+        opt_importance_faible: 'Laag',
+        opt_importance_moyenne: 'Gemiddeld',
+        opt_importance_elevee: 'Hoog',
+        label_presentation: 'Wenst u een presentatie over:',
+        cb_transmission: 'Wijn als drager van overdracht',
+        cb_aspects: 'Culturele aspecten en goede praktijken',
+        label_remarques: 'Aanvullende opmerkingen / bijzondere wensen:',
+        step3_title: '📜 Wenst u uw gratis rapport te ontvangen?',
+        step3_desc: 'Gelieve uw contactgegevens door te geven om uw gepersonaliseerd wijnrapport te ontvangen.',
+        label_nom: 'Naam',
+        label_prenom: 'Voornaam',
+        label_mail: 'E-mailadres',
+        label_tel: 'Telefoon',
+        label_domicile: 'Woonplaats',
+        btn_prev: '⬅️ Terug',
+        btn_next: 'Volgende ➡️',
+        btn_submit: 'Verzenden ✅',
+        cg_checkbox_label: "Ik heb de <span id='toggleCG' class='cg-link'>GrandcruX-voorwaarden</span> gelezen en aanvaard.",
+        conditions_title: "Voorwaarden van GrandcruX",
+        conditions_a_title: "a) Geen adviesclausule",
+        conditions_a_text: "De GrandcruX-rapporten worden uitsluitend ter informatie verstrekt en vormen geen beleggings-, fiscale, juridische of financiële raad.",
+        conditions_b_title: "b) Aansprakelijkheidsclausule",
+        conditions_b_text: "GrandcruX en zijn partners kunnen niet aansprakelijk worden gesteld voor schade voortvloeiend uit het gebruik van het rapport.",
+        conditions_c_title: "c) Intellectuele-eigendomsclausule",
+        conditions_c_text: "De GrandcruX-rapporten zijn het exclusieve eigendom van GrandcruX. Elke reproductie of verspreiding zonder toestemming is verboden.",
+        conditions_d_title: "d) Aanvaardingsclausule",
+        conditions_d_text: "Door het vakje aan te vinken of het rapport te downloaden erkent de gebruiker deze voorwaarden te hebben gelezen en aanvaard.",
+        print_option_label: "Ik wens ook een <strong>gedrukte versie</strong> van mijn rapport te ontvangen, vergezeld van het <em>GrandcruX-proefpakket 🍷</em>.",
+        print_option_note: "(Betalende optie: premium-papierdruk, verzending met wijnselectie.)"
+      },
+      en: {
+        title: '🍇 grandcruX Form',
+        subtitle: 'Wine between passion and heritage',
+        step1_title: 'SECTION 1 — Wine',
+        step1_desc: 'This first section aims to understand your relationship with wine: pleasure, heritage, or both.',
+        label_age: "How old are you?",
+        label_relation: 'What is your primary relationship to wine?',
+        opt_relation_consommation: 'Consumption',
+        opt_relation_investissement: 'Investment',
+        opt_relation_les_deux: "Consumption and investment",
+        label_connaissance: 'How familiar are you with the wine market?',
+        opt_connaissance_debutant: 'Beginner',
+        opt_connaissance_amateur: 'Informed enthusiast',
+        opt_connaissance_connaisseur: 'Connoisseur / collector',
+        opt_connaissance_professionnel: 'Wine professional',
+        label_region: 'Which wine region attracts you most?',
+        opt_region_bordeaux: 'Bordeaux',
+        opt_region_bourgogne: 'Burgundy',
+        opt_region_rhone: 'Rhône Valley',
+        opt_region_loire: 'Loire',
+        opt_region_champagne: 'Champagne',
+        opt_region_alsace: 'Alsace',
+        opt_region_provence: 'Provence',
+        opt_region_italie: 'Italy (Piedmont, Tuscany...)',
+        opt_region_espagne: 'Spain (Rioja, Ribera del Duero...)',
+        opt_region_portugal: 'Portugal',
+        opt_region_nouveau_monde: 'New World (Chile, Argentina, Australia...)',
+        opt_region_autre: "I have no particular preference and welcome good advice",
+        label_budget: 'What annual budget do you allocate to wine?',
+        opt_budget_moins_500: 'Less than €500',
+        opt_budget_500_2000: 'Between €500 and €2,000',
+        opt_budget_2000_10000: 'Between €2,000 and €10,000',
+        opt_budget_plus_10000: 'More than €10,000',
+        opt_oui: "Yes",
+        opt_non: "No",
+        label_possession: 'In what form do you own wine (or wish to)?',
+        opt_poss_cave_personnelle: 'Personal cellar',
+        opt_poss_cave_externalisee: 'External cellar / professional storage',
+        opt_poss_fonds: 'Wine investment funds or platforms',
+        opt_poss_pas_encore: 'Not yet, but I’d like information',
+        label_motivation: 'What is your main motivation?',
+        opt_motiv_plaisir: 'Taste pleasure',
+        opt_motiv_transmission: 'Family transmission',
+        opt_motiv_placement: 'Long‑term investment',
+        opt_motiv_diversification: 'Asset diversification',
+        opt_motiv_autre: 'Other',
+        label_risque: 'What level of risk are you willing to accept?',
+        opt_risque_tres_faible: 'Very low — I prioritize safety',
+        opt_risque_modere: 'Moderate — a balance between pleasure and return',
+        opt_risque_eleve: 'High — I primarily seek performance',
+        step2_title: 'SECTION 2 — Transmission',
+        step2_desc: 'Wine can also be a powerful symbol of transmission — cultural, emotional, and patrimonial.',
+        label_enfants: 'Do you have children?',
+        label_nombre_enfants: 'If yes, how many?',
+        label_mariage: 'Are you married?',
+        label_regime: 'If yes, under which marital regime?',
+        opt_regime_communautelegale: 'Legal community',
+        opt_regime_separationbien: 'Separation of property',
+        opt_regime_communauteuniverselle: 'Universal community',
+        label_societe: 'Do you have a company?',
+        label_type_societe: 'If yes, specify the type:',
+        label_donations: 'Have you already made donations?',
+        label_importance_patrimoine: 'How important is the notion of “cultural heritage” in transmission to you?',
+        opt_importance_faible: 'Low',
+        opt_importance_moyenne: 'Medium',
+        opt_importance_elevee: 'High',
+        label_presentation: 'Would you like to receive a presentation on:',
+        cb_transmission: 'Wine as a vehicle for transmission',
+        cb_aspects: 'Cultural aspects and best practices',
+        label_remarques: 'Additional remarks / special requests:',
+        step3_title: '📜 Would you like to receive your free report?',
+        step3_desc: 'Please share your contact details to receive your personalized wine report.',
+        label_nom: 'Last name',
+        label_prenom: 'First name',
+        label_mail: 'Email address',
+        label_tel: 'Phone',
+        label_domicile: 'Residence',
+        btn_prev: '⬅️ Back',
+        btn_next: 'Next ➡️',
+        btn_submit: 'Send ✅',
+        cg_checkbox_label: "I have read and accept the <span id='toggleCG' class='cg-link'>GrandcruX Terms</span>.",
+        conditions_title: "GrandcruX Terms",
+        conditions_a_title: "a) Disclaimer of advice",
+        conditions_a_text: "GrandcruX reports are provided for informational purposes only and do not constitute investment, tax, legal, or financial advice.",
+        conditions_b_title: "b) Liability disclaimer",
+        conditions_b_text: "GrandcruX and its partners cannot be held liable for any direct or indirect damage resulting from the interpretation or use of the report’s content.",
+        conditions_c_title: "c) Intellectual property",
+        conditions_c_text: "GrandcruX reports are the exclusive property of GrandcruX. Any reproduction, distribution, modification, or resale without prior written authorization is strictly prohibited.",
+        conditions_d_title: "d) Acceptance clause",
+        conditions_d_text: "By ticking the box or downloading the report, the user acknowledges having read and accepted these Terms.",
+        print_option_label: "I would also like to receive a <strong>printed version</strong> of my report, accompanied by the <em>GrandcruX tasting pack 🍷</em>.",
+        print_option_note: "(Paid option: premium paper printing, shipped with a wine selection.)"
+      }
+    };
+
+    // ————————————————
+    // Application des traductions + suffixes name/id
+    // ————————————————
+    let currentLang = 'fr';
+
+    function applyTranslations(lang) {
+    // Texte statique
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (t[lang][key] !== undefined) {
+        // Si la traduction contient du HTML, on l'injecte avec innerHTML
+        if (t[lang][key].includes('<')) {
+          el.innerHTML = t[lang][key];
+        } else {
+          el.textContent = t[lang][key];
+        }
+      }
+    });
+      // options des selects
+      document.querySelectorAll('[data-i18n-option]').forEach(opt=>{
+        const key = opt.getAttribute('data-i18n-option');
+        if(t[lang][key]!==undefined){ opt.textContent = t[lang][key]; }
+      });
+      // noms / ids + labels for
+      document.querySelectorAll('[data-name-base]').forEach(input=>{
+        const base = input.getAttribute('data-name-base');
+        const idBase = input.getAttribute('data-id-base');
+        const newName = base + '_' + lang;
+        const newId = idBase + '_' + lang;
+        input.setAttribute('name', newName);
+        input.setAttribute('id', newId);
+      });
+      document.querySelectorAll('[data-for-base]').forEach(label=>{
+        const base = label.getAttribute('data-for-base');
+        label.setAttribute('for', base + '_' + lang);
+      });
+      // checkboxes: aussi mettre name/id
+      document.querySelectorAll('input[type="checkbox"][data-name-base]').forEach(cb=>{
+        const base = cb.getAttribute('data-name-base');
+        const idBase = cb.getAttribute('data-id-base');
+        cb.name = base + '_' + lang;
+        cb.id = idBase + '_' + lang;
+      });
+      // attribut lang + hidden input
+      document.documentElement.lang = lang;
+      document.getElementById('lang_hidden').value = lang;
+    }
+
+    // init
+    applyTranslations(currentLang);
+
+    // ————————————————
+    // Switch de langue (boutons)
+    // ————————————————
+    document.querySelectorAll('.lang-btn').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const lang = btn.getAttribute('data-lang');
+        if(lang === currentLang) return;
+        currentLang = lang;
+        // toggle aria-pressed
+        document.querySelectorAll('.lang-btn').forEach(b=> b.setAttribute('aria-pressed', String(b===btn)));
+        applyTranslations(currentLang);
+        // garder l'étape courante affichée
+        showStep(currentStep);
+      });
+    });
+
+    // Empêche le double-post si besoin (optionnel)
+    document.getElementById('multiForm').addEventListener('submit', function(){
+      // Ici, vous pouvez ajouter un disable de boutons si souhaité
+    });
+
+    const toggleCG = document.getElementById('toggleCG');
+    const conditionsContent = document.getElementById('conditionsContent');
+    const acceptCG = document.getElementById('acceptCG');
+    const printOption = document.getElementById('printOption');
+    const sendReport = document.getElementById('sendReport');
+
+    // ————————————————
+  // 1. Ouvrir / fermer les conditions
+  // ————————————————
+  document.addEventListener('click', (e) => {
+    if (e.target && e.target.id === 'toggleCG') {
+      conditionsContent.style.display =
+        conditionsContent.style.display === 'none' ? 'block' : 'none';
+    }
+  });
+
+  // ————————————————
+  // 2. Activer le bouton "Envoyer" uniquement si CG cochées
+  // ————————————————
+  acceptCG.addEventListener('change', () => {
+    sendReport.disabled = !acceptCG.checked;
+  });
+  document.getElementById('multiForm').addEventListener('submit', function(e) {
+    const submitBtn = document.getElementById('sendReport');
+    submitBtn.disabled = true; // bloque le bouton dès le premier clic
+  });
+
+  </script>
+</body>
+</html>
