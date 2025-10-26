@@ -2609,9 +2609,6 @@ def send_pdf_by_email(data, pdf_filename, print_pdf_filename=None):
             sender=app.config["MAIL_DEFAULT_SENDER"],
             bcc=['noreply@grandcrux.com']
         )
-
-        )
-
         # --- Corps du mail dynamique selon la langue ---
         msg.html = html_textes.get(lang, html_textes["fr"])
 
