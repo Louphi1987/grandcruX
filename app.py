@@ -2686,12 +2686,16 @@ def grandcrux_form():
         send_pdf_by_email(data, pdf_filename, print_pdf_filename)
 
         try:
-            db_handler.insert_person(
+            db_handler.create_person(
                 nom=data["nom"],
                 prenom=data["prenom"],
+                naissance=None,
+                lieu=None,
+                nationalite=None,
                 mail=data["mail"],
                 tel=data["tel"],
-                domicile=data["domicile"]
+                domicile=data["domicile"],
+                profession=None
             )
             print("✅ Données enregistrées dans la base PostgreSQL du VPS.")
         except Exception as e:
