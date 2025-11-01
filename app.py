@@ -2685,6 +2685,18 @@ def grandcrux_form():
 
         send_pdf_by_email(data, pdf_filename, print_pdf_filename)
 
+        try:
+            db_handler.insert_person(
+                nom=data["nom"],
+                prenom=data["prenom"],
+                mail=data["mail"],
+                tel=data["tel"],
+                domicile=data["domicile"]
+            )
+            print("✅ Données enregistrées dans la base PostgreSQL du VPS.")
+        except Exception as e:
+            print("❌ Erreur lors de l'enregistrement en base :", e)
+
         return redirect(url_for("merci"))
 
     return render_template("form.html")
