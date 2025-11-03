@@ -2494,7 +2494,7 @@ def merci():
             • Thank you for your participation in GrandcruX 🍷 •<br>
             Bedankt voor uw deelname aan GrandcruX 🍷
         </h2>
-        <a href="https://www.grandcrux.com" class="button">Website</a>
+        <a href="https://www.grandcrux.com/vins-investissement/" class="button">Website</a>
     </body>
     </html>
     """
