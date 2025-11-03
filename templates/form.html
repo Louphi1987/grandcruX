@@ -24,7 +24,32 @@
       padding: 0;
       color: var(--text);
     }
+    .brand-header {
+      text-align: center;
+      margin-bottom: 30px;
+      margin-top: 10px;
+    }
 
+    .logo-top {
+      height: 90px;
+      margin-bottom: 10px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+    }
+
+    .brand-header h1 {
+      font-family: "Georgia", serif;
+      color: var(--wine);
+      font-size: 2rem;
+      letter-spacing: 1px;
+      margin: 0;
+    }
+
+    .brand-header .subtitle {
+      font-style: italic;
+      color: var(--muted);
+      margin-top: 6px;
+      font-size: 1rem;
+    }
     .container {
       max-width: 700px;
       margin: auto;
@@ -193,8 +218,11 @@
       <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
     </div>
 
-    <h1 data-i18n="title">🍇 Formulaire grandcruX</h1>
-    <p class="subtitle" data-i18n="subtitle">Le vin entre passion et patrimoine</p>
+    <div class="brand-header">
+      <img src="{{ url_for('static', filename='grandcrux.png') }}" alt="Logo GrandcruX" class="logo-top">
+      <h1><span data-i18n="title">Formulaire GrandcruX</span></h1>
+      <p class="subtitle" data-i18n="subtitle">Le vin entre passion et patrimoine</p>
+    </div>
 
     <form id="multiForm" method="POST">
       <!-- Lang active envoyée au backend -->
@@ -440,7 +468,7 @@
     // ————————————————
     const t = {
       fr: {
-        title: '🍇 Formulaire grandcruX',
+        title: 'Formulaire',
         subtitle: 'Le vin entre passion et patrimoine',
         step1_title: 'VOLET 1 — Le vin',
         step1_desc: 'Ce premier volet vise à comprendre votre rapport au vin : plaisir, patrimoine ou les deux.',
@@ -532,7 +560,7 @@
         print_option_label: "Je souhaite également recevoir une <strong>version imprimée</strong> de mon rapport, éventuellement accompagnée du <em>pack dégustation GrandcruX 🍷</em>.",
         },
       nl: {
-        title: '🍇 grandcruX-formulier',
+        title: 'Formulier',
         subtitle: 'Wijn tussen passie en erfgoed',
         step1_title: 'DEEL 1 — Wijn',
         step1_desc: 'Dit eerste deel peilt naar uw relatie met wijn: plezier, erfgoed of beide.',
@@ -625,7 +653,7 @@
         print_option_note: "(Betalende optie: premium-papierdruk, verzending met wijnselectie.)"
       },
       en: {
-        title: '🍇 grandcruX Form',
+        title: 'Form',
         subtitle: 'Wine between passion and heritage',
         step1_title: 'SECTION 1 — Wine',
         step1_desc: 'This first section aims to understand your relationship with wine: pleasure, heritage, or both.',
