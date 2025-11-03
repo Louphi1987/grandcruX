@@ -922,7 +922,7 @@ def generate_pdf(**data):
             "diversification": (
                 "La diversification du patrimoine.\n\n"
                 "Une approche avisée. Le vin peut s’envisager comme une composante complémentaire d’un patrimoine global, "
-                "au même titre que les voitures de collection, les œuvres d’art ou les montres d’exception. "
+                "au même titre que les voitures de collection, les oeuvres d’art ou les montres d’exception. "
                 "Un choix à la fois esthétique, sensoriel et patrimonial."
             )
         },
