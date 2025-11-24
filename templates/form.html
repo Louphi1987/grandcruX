@@ -19,7 +19,6 @@
     *{box-sizing:border-box}
     body {
       background: var(--bg);
-      font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       margin: 0;
       padding: 0;
       color: var(--text);
@@ -205,7 +204,17 @@
       color: #555;
       margin-left: 24px;
     }
+    .optin-confidentialite {
+      text-align: left;
+      margin-top: 20px;
+      font-size: 0.95rem;
+    }
 
+    .optin-confidentialite label {
+      display: block;
+      cursor: pointer;
+      line-height: 1.5;
+    }
 
   </style>
 </head>
@@ -376,26 +385,30 @@
 
           <!-- Coordonnées -->
           <label data-for-base="nom" data-i18n="label_nom">Nom</label>
-          <input type="text" id="nom" name="nom_fr" data-id-base="nom" data-name-base="nom" required>
-          
+          <input type="text" data-id-base="nom" data-name-base="nom" required>
+
           <label data-for-base="prenom" data-i18n="label_prenom">Prénom</label>
-          <input type="text" id="prenom" name="prenom_fr" data-id-base="prenom" data-name-base="prenom" required>
-          
+          <input type="text" data-id-base="prenom" data-name-base="prenom" required>
+
           <label data-for-base="mail" data-i18n="label_mail">Adresse e-mail</label>
-          <input type="email" id="mail" name="mail_fr" data-id-base="mail" data-name-base="mail" required>
-          
+          <input type="email" data-id-base="mail" data-name-base="mail" required>
+
           <label data-for-base="tel" data-i18n="label_tel">Téléphone</label>
-          <input type="tel" id="tel" name="tel_fr" data-id-base="tel" data-name-base="tel">
-          
+          <input type="tel" data-id-base="tel" data-name-base="tel">
+
           <label data-for-base="domicile" data-i18n="label_domicile">Domicile</label>
-          <input type="text" id="domicile" name="domicile_fr" data-id-base="domicile" data-name-base="domicile">
+          <input type="text" data-id-base="domicile" data-name-base="domicile">
 
           <!-- ✅ Bloc opt-in Conditions -->
           <div class="optin-conditions">
             <label>
               <input type="checkbox" id="acceptCG">
               <span data-i18n="cg_checkbox_label">
-                J’ai lu et j’accepte les <span id="toggleCG" class="cg-link">Conditions de GrandcruX</span>.
+                J’ai lu et j’accepte les <span id="toggleCG"
+                                               class="cg-link"
+                                               onclick="event.stopPropagation(); event.preventDefault();">
+                                               Conditions de GrandcruX
+                                        </span>
               </span>
             </label>
 
@@ -414,6 +427,86 @@
 
               <p><strong data-i18n="conditions_d_title">d) Clause d’acceptation</strong><br>
               <span data-i18n="conditions_d_text">En cochant la case d’acceptation ou en téléchargeant le rapport, l’utilisateur reconnaît avoir lu et accepté les présentes Conditions.</span></p>
+            </div>
+          </div>
+
+          <!-- ✅ Bloc opt-in Confidentialité (RGPD) -->
+          <div class="optin-confidentialite">
+            <label>
+              <input type="checkbox" id="acceptRGPD">
+              <span data-i18n="rgpd_checkbox_label">
+                J’accepte que mes données personnelles soient utilisées par GrandcruX pour 
+                l’établissement de mon rapport et conservées conformément à la
+                  <span id="togglePrivacy" class="cg-link"
+                      onclick="event.stopPropagation(); event.preventDefault();">
+                        <strong data-i18n="rgpd_privacy_title">Politique de confidentialité.</strong>
+                  </span>
+              </span>
+            </label>
+
+
+            <!-- Menu déroulant -->
+            <div id="privacyContent" class="conditions-content">
+
+              <h4 data-i18n="privacy_title">Politique de confidentialité GrandcruX</h4>
+
+              <p>
+                <strong data-i18n="privacy_f1_title">1. Finalité du traitement</strong><br>
+                <span data-i18n="privacy_f1_text">
+                  GrandcruX collecte certaines données personnelles (nom, e-mail, téléphone, informations familiales et patrimoniales) uniquement afin d’établir le rapport demandé.
+                </span>
+              </p>
+
+              <p>
+                <strong data-i18n="privacy_f2_title">2. Base légale</strong><br>
+                <span data-i18n="privacy_f2_text">
+                  Le traitement repose sur votre consentement explicite et sur votre demande volontaire d’obtenir un rapport personnalisé.
+                </span>
+              </p>
+
+              <p>
+                <strong data-i18n="privacy_f3_title">3. Données collectées</strong><br>
+                <span data-i18n="privacy_f3_text">
+                  Nom, prénom, adresse e-mail, adresse postale, numéro de téléphone, informations familiales (ex. nombre d’enfants), informations patrimoniales explicitement fournies.
+                </span>
+              </p>
+
+              <p>
+                <strong data-i18n="privacy_f4_title">4. Durée de conservation</strong><br>
+                <span data-i18n="privacy_f4_text">
+                  Vos données sont conservées pendant 12 mois après l’envoi du rapport, sauf demande de suppression anticipée.
+                </span>
+              </p>
+
+              <p>
+                <strong data-i18n="privacy_f5_title">5. Sécurité et stockage</strong><br>
+                <span data-i18n="privacy_f5_text">
+                  Les données sont hébergées au sein de l’Union européenne avec chiffrement et accès limité.
+                </span>
+              </p>
+
+              <p>
+                <strong data-i18n="privacy_f6_title">6. Partage des données</strong><br>
+                <span data-i18n="privacy_f6_text">
+                  Les données ne sont jamais vendues. Elles sont uniquement accessibles à l’équipe GrandcruX et aux prestataires techniques nécessaires.
+                </span>
+              </p>
+
+              <p>
+                <strong data-i18n="privacy_f7_title">7. Vos droits</strong><br>
+                <span data-i18n="privacy_f7_text">
+                  Vous disposez d’un droit d’accès, de rectification, de suppression, d’opposition, de portabilité et de retrait du consentement.  
+                  Pour exercer vos droits : <strong>info@grandcrux.com</strong>
+                </span>
+              </p>
+
+              <p>
+                <strong data-i18n="privacy_f8_title">8. Responsable du traitement</strong><br>
+                <span data-i18n="privacy_f8_text">
+                  GrandcruX – Contact : info@grandcrux.com
+                </span>
+              </p>
+
             </div>
           </div>
 
@@ -558,6 +651,25 @@
         conditions_d_title: "d) Clause d’acceptation",
         conditions_d_text: "En cochant la case d’acceptation ou en téléchargeant le rapport, l’utilisateur reconnaît avoir lu et accepté les présentes Conditions.",
         print_option_label: "Je souhaite également recevoir une <strong>version imprimée</strong> de mon rapport, éventuellement accompagnée du <em>pack dégustation GrandcruX 🍷</em>.",
+        rgpd_checkbox_label: "J’accepte que mes données personnelles soient utilisées par GrandcruX pour l’établissement de mon rapport et conservées conformément à la <span id='togglePrivacy' class='cg-link'>Politique de confidentialité</span>.",
+        privacy_title: "Politique de confidentialité",
+        privacy_1_title: "1. Finalité du traitement",
+        privacy_1_text: "GrandcruX collecte certaines données personnelles afin d’établir le rapport demandé.",
+        privacy_2_title: "2. Base légale",
+        privacy_2_text: "Le traitement repose sur votre consentement explicite et votre demande volontaire d'obtenir un rapport personnalisé.",
+        privacy_3_title: "3. Données collectées",
+        privacy_3_text: "Nom, prénom, e-mail, adresse postale, téléphone, informations familiales (ex. enfants), données patrimoniales fournies volontairement.",
+        privacy_4_title: "4. Durée de conservation",
+        privacy_4_text: "Les données sont conservées 12 mois après l’envoi du rapport, sauf demande de suppression.",
+        privacy_5_title: "5. Sécurité et stockage",
+        privacy_5_text: "Les données sont stockées dans l’Union européenne, avec chiffrement et accès limité.",
+        privacy_6_title: "6. Partage des données",
+        privacy_6_text: "Les données ne sont jamais vendues. Elles sont uniquement partagées avec les prestataires techniques nécessaires.",
+        privacy_7_title: "7. Vos droits",
+        privacy_7_text: "Vous disposez d’un droit d’accès, rectification, suppression, opposition, portabilité et retrait du consentement.",
+        privacy_7_contact: "Pour exercer vos droits : info@grandcrux.com",
+        privacy_8_title: "8. Responsable du traitement",
+        privacy_8_text: "GrandcruX – Contact : info@grandcrux.com",
         },
       nl: {
         title: 'Formulier',
@@ -650,8 +762,47 @@
         conditions_d_title: "d) Aanvaardingsclausule",
         conditions_d_text: "Door het vakje aan te vinken of het rapport te downloaden erkent de gebruiker deze voorwaarden te hebben gelezen en aanvaard.",
         print_option_label: "Ik wens ook een <strong>gedrukte versie</strong> van mijn rapport te ontvangen, vergezeld van het <em>GrandcruX-proefpakket 🍷</em>.",
-        print_option_note: "(Betalende optie: premium-papierdruk, verzending met wijnselectie.)"
+        print_option_note: "(Betalende optie: premium-papierdruk, verzending met wijnselectie.)",
+        rgpd_checkbox_label: "J’accepte que mes données personnelles soient utilisées par GrandcruX pour l’établissement de mon rapport et conservées conformément à la <span id='togglePrivacy' class='cg-link'><strong>Politique de confidentialité</strong></span>.",
+        privacy_title: "Politique de confidentialité",
+        privacy_1_title: "1. Finalité du traitement",
+        privacy_1_text: "GrandcruX collecte certaines données personnelles afin d’établir le rapport demandé.",
+        privacy_2_title: "2. Base légale",
+        privacy_2_text: "Le traitement repose sur votre consentement explicite et votre demande volontaire d'obtenir un rapport personnalisé.",
+        privacy_3_title: "3. Données collectées",
+        privacy_3_text: "Nom, prénom, e-mail, adresse postale, téléphone, informations familiales (ex. enfants), données patrimoniales fournies volontairement.",
+        privacy_4_title: "4. Durée de conservation",
+        privacy_4_text: "Les données sont conservées 12 mois après l’envoi du rapport, sauf demande de suppression.",
+        privacy_5_title: "5. Sécurité et stockage",
+        privacy_5_text: "Les données sont stockées dans l’Union européenne, avec chiffrement et accès limité.",
+        privacy_6_title: "6. Partage des données",
+        privacy_6_text: "Les données ne sont jamais vendues. Elles sont uniquement partagées avec les prestataires techniques nécessaires.",
+        privacy_7_title: "7. Vos droits",
+        privacy_7_text: "Vous disposez d’un droit d’accès, rectification, suppression, opposition, portabilité et retrait du consentement.",
+        privacy_7_contact: "Pour exercer vos droits : info@grandcrux.com",
+        privacy_8_title: "8. Responsable du traitement",
+        privacy_8_text: "GrandcruX – Contact : info@grandcrux.com",
+        rgpd_checkbox_label: "Ik ga ermee akkoord dat mijn persoonsgegevens worden gebruikt door GrandcruX voor het opstellen van mijn rapport en worden bewaard volgens het <span id='togglePrivacy' class='cg-link'>Privacybeleid</span>.",
+        privacy_title: "Privacybeleid",
+        privacy_1_title: "1. Doel van de verwerking",
+        privacy_1_text: "GrandcruX verzamelt bepaalde persoonsgegevens uitsluitend om het aangevraagde rapport op te stellen.",
+        privacy_2_title: "2. Wettelijke basis",
+        privacy_2_text: "De verwerking is gebaseerd op uw uitdrukkelijke toestemming en uw vrijwillige aanvraag voor een gepersonaliseerd rapport.",
+        privacy_3_title: "3. Verzamelde gegevens",
+        privacy_3_text: "Naam, voornaam, e-mail, postadres, telefoonnummer, gezinsinformatie, en patrimoniale gegevens die vrijwillig zijn verstrekt.",
+        privacy_4_title: "4. Bewaartermijn",
+        privacy_4_text: "De gegevens worden 12 maanden bewaard na verzending van het rapport, tenzij eerder verwijdering wordt gevraagd.",
+        privacy_5_title: "5. Beveiliging en opslag",
+        privacy_5_text: "De gegevens worden opgeslagen binnen de Europese Unie met versleuteling en beperkte toegang.",
+        privacy_6_title: "6. Gegevensdeling",
+        privacy_6_text: "Gegevens worden nooit verkocht. Ze worden alleen gedeeld met noodzakelijke technische dienstverleners.",
+        privacy_7_title: "7. Uw rechten",
+        privacy_7_text: "U heeft recht op inzage, correctie, verwijdering, bezwaar, overdraagbaarheid en intrekking van toestemming.",
+        privacy_7_contact: "Uw rechten uitoefenen: info@grandcrux.com",
+        privacy_8_title: "8. Verwerkingsverantwoordelijke",
+        privacy_8_text: "GrandcruX – Contact: info@grandcrux.com",
       },
+      
       en: {
         title: 'Form',
         subtitle: 'Wine between passion and heritage',
@@ -743,7 +894,26 @@
         conditions_d_title: "d) Acceptance clause",
         conditions_d_text: "By ticking the box or downloading the report, the user acknowledges having read and accepted these Terms.",
         print_option_label: "I would also like to receive a <strong>printed version</strong> of my report, accompanied by the <em>GrandcruX tasting pack 🍷</em>.",
-        print_option_note: "(Paid option: premium paper printing, shipped with a wine selection.)"
+        print_option_note: "(Paid option: premium paper printing, shipped with a wine selection.)",
+        rgpd_checkbox_label: "I agree that my personal data may be used by GrandcruX to prepare my report and stored in accordance with the <span id='togglePrivacy' class='cg-link'>Privacy Policy</span>.",
+        privacy_title: "Privacy Policy",
+        privacy_1_title: "1. Purpose of processing",
+        privacy_1_text: "GrandcruX collects certain personal data solely to prepare the requested report.",
+        privacy_2_title: "2. Legal basis",
+        privacy_2_text: "Processing is based on your explicit consent and your voluntary request for a personalized report.",
+        privacy_3_title: "3. Data collected",
+        privacy_3_text: "Name, first name, email, postal address, phone number, family information, and patrimonial data voluntarily provided.",
+        privacy_4_title: "4. Data retention",
+        privacy_4_text: "Data are kept for 12 months after the report is sent unless deletion is requested earlier.",
+        privacy_5_title: "5. Security and storage",
+        privacy_5_text: "Data are stored within the European Union with encryption and restricted access.",
+        privacy_6_title: "6. Data sharing",
+        privacy_6_text: "Data are never sold. They are only shared with essential technical providers.",
+        privacy_7_title: "7. Your rights",
+        privacy_7_text: "You have the right to access, rectify, delete, oppose, port your data and withdraw consent.",
+        privacy_7_contact: "To exercise your rights: info@grandcrux.com",
+        privacy_8_title: "8. Data controller",
+        privacy_8_text: "GrandcruX – Contact: info@grandcrux.com",
       }
     };
 
@@ -819,6 +989,9 @@
       // Ici, vous pouvez ajouter un disable de boutons si souhaité
     });
 
+    const privacyContent = document.getElementById('privacyContent');
+    const acceptRGPD = document.getElementById('acceptRGPD');
+    const togglePrivacy = document.getElementById('togglePrivacy');
     const toggleCG = document.getElementById('toggleCG');
     const conditionsContent = document.getElementById('conditionsContent');
     const acceptCG = document.getElementById('acceptCG');
@@ -829,21 +1002,35 @@
   // 1. Ouvrir / fermer les conditions
   // ————————————————
   document.addEventListener('click', (e) => {
+    
     if (e.target && e.target.id === 'toggleCG') {
       conditionsContent.style.display =
         conditionsContent.style.display === 'none' ? 'block' : 'none';
     }
+
+    if (e.target && e.target.id === 'togglePrivacy') {
+      privacyContent.style.display =
+        privacyContent.style.display === 'none' ? 'block' : 'none';
+    } 
+    
   });
 
   // ————————————————
-  // 2. Activer le bouton "Envoyer" uniquement si CG cochées
+  // 2. Activer "Envoyer" seulement si CG + RGPD cochés
   // ————————————————
-  acceptCG.addEventListener('change', () => {
-    sendReport.disabled = !acceptCG.checked;
-  });
+  function refreshSubmitStatus() {
+    sendReport.disabled = !(acceptCG.checked && acceptRGPD.checked);
+  }
+
+  acceptCG.addEventListener('change', refreshSubmitStatus);
+  acceptRGPD.addEventListener('change', refreshSubmitStatus);
+
+  // ————————————————
+  // 3. Bloquer le bouton dès le premier clic
+  // ————————————————
   document.getElementById('multiForm').addEventListener('submit', function(e) {
     const submitBtn = document.getElementById('sendReport');
-    submitBtn.disabled = true; // bloque le bouton dès le premier clic
+    submitBtn.disabled = true;
   });
 
   </script>
